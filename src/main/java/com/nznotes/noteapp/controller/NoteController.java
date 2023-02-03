@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class NoteController {
 
     @GetMapping("/notes")
     public List<Note> getAllNotes() {
+        
         return noteRepository.findAll();
     }
     @PostMapping("/notes")
@@ -62,7 +64,7 @@ public class NoteController {
 
         noteRepository.delete(note);
 
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>("Note #"+noteId+"deleted",HttpStatus.OK);
     }
     
 }

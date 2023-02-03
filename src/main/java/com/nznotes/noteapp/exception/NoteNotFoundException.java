@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import lombok.Data;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-@Data
 public class NoteNotFoundException  extends RuntimeException{
     private String noteName;
     private String fieldName;
@@ -17,5 +16,4 @@ public class NoteNotFoundException  extends RuntimeException{
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
     }
-
 }

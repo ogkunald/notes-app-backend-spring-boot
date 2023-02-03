@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -14,66 +16,28 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "notes_table") 
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="note_id")
     private Long id;
 
     @NotBlank
     private String title;
 
     @NotBlank
-    private String content;
+    private String content; 
 
-    @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="created_date",nullable = false, updatable = false)
+    @CreationTimestamp
     @CreatedDate
     private Date createdAt;
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="updated_date",nullable = false)
+    @UpdateTimestamp
     @LastModifiedDate
     private Date updatedAt;
-
-    // public Long getId() {
-    //     return id;
-    // }
-
-    // public void setId(Long id) {
-    //     this.id = id;
-    // }
-
-    // public String getTitle() {
-    //     return title;
-    // }
-
-    // public void setTitle(String title) {
-    //     this.title = title;
-    // }
-
-    // public String getContent() {
-    //     return content;
-    // }
-
-    // public void setContent(String content) {
-    //     this.content = content;
-    // }
-
-    // public Date getCreatedAt() {
-    //     return createdAt;
-    // }
-
-    // public void setCreatedAt(Date createdAt) {
-    //     this.createdAt = createdAt;
-    // }
-
-    // public Date getUpdatedAt() {
-    //     return updatedAt;
-    // }
-
-    // public void setUpdatedAt(Date updatedAt) {
-    //     this.updatedAt = updatedAt;
-    // }
 }

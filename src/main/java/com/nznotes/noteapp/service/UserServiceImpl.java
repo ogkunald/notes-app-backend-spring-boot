@@ -1,5 +1,7 @@
 package com.nznotes.noteapp.service;
 
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import com.nznotes.noteapp.repository.VerificationTokenRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -21,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
-    
+
     public User registerUser(UserModel userModel) {
         User user = new User();
         user.setEmail(userModel.getEmail());
@@ -39,6 +41,29 @@ public class UserServiceImpl implements UserService {
         // TODO Auto-generated method stub
         VerificationToken verificationToken = new VerificationToken(user, token);
 
-        VerificationTokenRepository.save(verificationToken);
+        verificationTokenRepository.save(verificationToken);
+    }
+
+    @Override
+    public String validateVerificationToken(String token) {
+        // TODO Auto-generated method stub
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+
+        if (verificationToken == null) {
+            return "invalid";
+        }
+
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+
+        if ((verificationToken.getExpirationTime().getTime()
+                - cal.getTime().getTime()) <= 0) {
+            verificationTokenRepository.delete(verificationToken);
+            return "expired";
+        }
+
+        user.setEnabled(true);
+        userRepository.save(user);
+        return "valid";
     }
 }

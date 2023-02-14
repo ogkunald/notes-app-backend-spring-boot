@@ -18,26 +18,30 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "notes_table") 
+@Table(name = "notes_table")
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="note_id")
+    @Column(name = "note_id")
     private Long id;
 
     @NotBlank
     private String title;
 
     @NotBlank
-    private String content; 
+    private String content;
 
-    @Column(name="created_date",nullable = false, updatable = false)
+    @Column(name = "created_date", nullable = false, updatable = false)
     @CreationTimestamp
     @CreatedDate
     private Date createdAt;
 
-    @Column(name="updated_date",nullable = false)
+    @Column(name = "updated_date", nullable = false)
     @UpdateTimestamp
     @LastModifiedDate
     private Date updatedAt;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

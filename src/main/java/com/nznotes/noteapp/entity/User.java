@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
@@ -24,4 +25,6 @@ public class User {
 
     private String role;
     private boolean enabled = false;
+
+
 }
